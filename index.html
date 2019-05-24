@@ -18,6 +18,7 @@ canvas {
 <p>E = LEFT/RIGHT</p>
 <input type="button" value="Play!" onclick = "startGame()">
 <script>
+
 var myMan;
 var myPlatforms = [];
 var myObstacles = [];
@@ -50,6 +51,9 @@ var myGameArea = {
     start : function() {
         this.canvas.width = 500;
         this.canvas.height = 340;
+	this.position = absolute;
+    	this.margin-top:-250px; /*half of the height*/
+    	this.margin-left:-250px; /*half of the width*/}
         this.context = this.canvas.getContext("2d");
         document.body.insertBefore(this.canvas, document.body.childNodes[0]);
         this.frameNo = 0;
