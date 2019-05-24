@@ -1,31 +1,233 @@
 <!DOCTYPE html>
-  <html>
-    <head>
-        <title>Top Title</title>
-        <link rel="stylesheet" href="style.css">
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<style>
+canvas {
+    border:10px solid #009900;
+    background-color: #181818;
+}
+</style>
+</head>
+<body onload="startGame()" onkeypress= "move(event)">
 
-    </head>
+<h1>DODGE!</h1>
+<script>
 
-    <body>
-      <center>
-        <h1>A Cat Pic</h1>
-        <p class="exp">
-          I am told to look for a cat picture. This is a cat, right?
-        </p>
-        <div class="pic">
-          <img src="https://i.imgur.com/ZDEXz3J.jpg">
-        </div>
-        <p class="it">
-          It is :
-        </p>
-        <ul class="lis">
-          <li>Furry</li>
-          <li>Cute</li>
-          <li>Small</li>
-        </ul>
-        <p class="con">
-          Therefore, this is indeed a cat.
-        </p>
-      </center>
-    </body>
-  </html>
+var myMan;
+var myPlatforms = [];
+var myObstacles = [];
+var myScoreBox;
+var myScore;
+
+var blockcolor = "white"
+
+function move(event) {
+	if (event.keyCode == 101) {
+    	shift(1.2);
+    } else if (event.keyCode == 119) {
+    	change(1.2);
+    }
+    
+    if (myGameArea.over == true) {
+    	startGame();
+    }
+}
+
+function startGame() {
+    myMan = new component(15, 15, "#B0B0B0", 242.5, 182.5);
+    myScoreBox = new component(500, 40, "#101010", 0, 0);
+    myScore = new component("20px", "Arial", "#00CC33", 200, 30, "text");
+    myGameArea.start();
+}
+
+var myGameArea = {
+    canvas : document.createElement("canvas"),
+    start : function() {
+        this.canvas.width = 500;
+        this.canvas.height = 340;
+        this.context = this.canvas.getContext("2d");
+        document.body.insertBefore(this.canvas, document.body.childNodes[0]);
+        this.frameNo = 0;
+        this.interval = setInterval(updateGameArea, 15);
+        this.over = false;
+        },
+    clear : function() {
+        this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
+    }
+    
+}
+
+function component(width, height, color, x, y, type) {
+    this.type = type;
+    this.score = 0;
+    this.width = width;
+    this.height = height;
+    this.speedX = 0;
+    this.speedY = 0;    
+    this.x = x;
+    this.y = y;
+    this.gravity = 0;
+    this.shift = 0;
+    this.update = function() {
+        ctx = myGameArea.context;
+        if (this.type == "text") {
+            ctx.font = this.width + " " + this.height;
+            ctx.fillStyle = color;
+            ctx.fillText(this.text, this.x, this.y);
+        } else {
+            ctx.fillStyle = color;
+            ctx.fillRect(this.x, this.y, this.width, this.height);
+        }
+    }
+    
+    this.newPos = function() {
+        this.x += this.shift;
+        this.y += this.gravity;
+        this.hitBottom();
+        this.hitTop();
+        this.hitLeft();
+        this.hitRight();
+    }
+    
+               
+    this.hitBottom = function() {
+        var rockbottom = myGameArea.canvas.height - this.height;
+        if (this.y > rockbottom) {
+            this.y = rockbottom;
+            this.gravity = -1.2;
+            return true;
+        }
+    }
+    
+    this.hitTop = function() {
+        var tiptop = 40;
+        if (this.y < tiptop) {
+            this.y = tiptop;
+            this.gravity = 1.2;
+            return true;
+        }
+    }
+    
+    this.hitLeft = function() {
+        var leftborder = 0;
+        if (this.x < leftborder) {
+            this.x = leftborder;
+            this.shift = 1.2;
+            return true;
+        }
+    }
+    
+    this.hitRight = function() {
+        var rightborder = myGameArea.canvas.width - this.width;
+        if (this.x > rightborder) {
+            this.x = rightborder;
+            this.shift = -1.2;
+            return true;
+        }
+    }
+    
+    this.contactWith = function(otherobj) {
+        var myleft = this.x;
+        var myright = this.x + (this.width);
+        var mytop = this.y;
+        var mybottom = this.y + (this.height);
+        var otherleft = otherobj.x;
+        var otherright = otherobj.x + (otherobj.width);
+        var othertop = otherobj.y;
+        var otherbottom = otherobj.y + (otherobj.height);
+        var contact = true;
+        if ((mybottom < othertop) || (mytop > otherbottom) || (myright < otherleft) || (myleft > otherright)) {
+            contact = false;
+        }
+        return contact;
+    }
+    
+    
+}
+
+function updateGameArea() {
+    var height, width, gap0, gap1, gap2, gap3, minHeight, maxHeight, minGap, maxGap, points, coinScore, minWidth, maxWidth;
+    for (i = 0; i < myPlatforms.length; i += 1) {
+        if (myMan.contactWith(myPlatforms[i]) || myMan.contactWith(myObstacles[i])) {
+        	myGameArea.over = true;
+            clearInterval(myGameArea.interval);
+            myPlatforms = [];
+            myObstacles = [];
+            return;
+        } 
+    }
+    myGameArea.clear();
+    myGameArea.frameNo += 1;
+    points = Math.round(myGameArea.frameNo/10);
+    if (myGameArea.frameNo == 1 || everyinterval(150)) {
+    width = 20
+        minHeight = 12;
+        maxHeight = 18;
+        height = Math.floor(Math.random()*(maxHeight-minHeight+1)+minHeight);
+        minWidth = 12;
+        maxWidth = 18;
+        width = Math.floor(Math.random()*(maxWidth-minWidth+1)+minWidth);
+        minGap = 40;
+        maxGap = 75;
+        gap0 = Math.floor(Math.random()*(maxGap-minGap+1)+minGap);
+        gap1 = Math.floor(Math.random()*(maxGap-minGap+1)+minGap);
+        gap2 = Math.floor(Math.random()*(maxGap-minGap+1)+minGap);
+        gap3 = Math.floor(Math.random()*(maxGap-minGap+1)+minGap);
+        myPlatforms.push(new component(width, height, blockcolor, gap0 - 75, 40 -maxHeight));
+        myPlatforms.push(new component(width, height, blockcolor, 50 + gap1, 10-maxHeight));
+        myPlatforms.push(new component(width, height, blockcolor, 175 + gap2, 30-maxHeight));
+        myPlatforms.push(new component(width, height, blockcolor, 300 + gap3, 20-maxHeight));
+		myObstacles.push(new component(width, height, blockcolor, myGameArea.canvas.width - gap0 + 30, myGameArea.canvas.height + maxHeight));
+        myObstacles.push(new component(width, height, blockcolor, myGameArea.canvas.width - gap1 - 95, myGameArea.canvas.height + maxHeight));
+        myObstacles.push(new component(width, height, blockcolor, myGameArea.canvas.width - gap2 - 220, myGameArea.canvas.height + maxHeight));
+        myObstacles.push(new component(width, height, blockcolor, myGameArea.canvas.width - gap3 - 345, myGameArea.canvas.height + maxHeight));
+    }
+    for (i = 0; i < myPlatforms.length; i += 1) {
+        myPlatforms[i].y += 1;
+        myPlatforms[i].x += 0.5;
+        myPlatforms[i].update();
+    }
+    for (i = 0; i < myObstacles.length; i += 1) {
+        myObstacles[i].y += -1;
+        myObstacles[i].x += -0.5;
+        myObstacles[i].update();
+    }
+    myScoreBox.update();
+    myScore.text="SCORE: " + points;
+    myScore.update();
+    myMan.newPos();
+    myMan.update();
+  
+}
+
+
+
+function everyinterval(n) {
+    if ((myGameArea.frameNo / n) % 1 == 0) {return true;}
+    return false;
+}
+
+function shift(n) {
+   if (myMan.shift > 0) {
+	myMan.shift = -n;
+    } else {
+    myMan.shift = n;
+    }
+}
+
+function change(n) {
+   if (myMan.gravity > 0) {
+	myMan.gravity = -n;
+    } else {
+    myMan.gravity = n;
+    }
+}
+
+</script>
+<p>Instructions:</p>
+<p>SPACE = UP/DOWN</p>
+<p>CLICK = LEFT/RIGHT</p>
+</body>
+</html>
+
