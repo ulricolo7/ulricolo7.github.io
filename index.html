@@ -9,11 +9,15 @@ canvas {
 }
 </style>
 </head>
-<body onload="startGame()" onkeypress= "move(event)">
+<body onkeypress= "move(event)">
 
+<center>
 <h1>DODGE!</h1>
+<p>Instructions:</p>
+<p>W = UP/DOWN</p>
+<p>E = LEFT/RIGHT</p>
+<input type="button" value="Play!" onclick = "startGame()">
 <script>
-
 var myMan;
 var myPlatforms = [];
 var myObstacles = [];
@@ -84,6 +88,11 @@ function component(width, height, color, x, y, type) {
     this.newPos = function() {
         this.x += this.shift;
         this.y += this.gravity;
+        if (this.shift == 0 && myGameArea.frameNo > 200) {
+        	this.shift = 0.6;
+        } else if (this.gravity == 0 && myGameArea.frameNo > 200) {
+        	this.gravity = 0.6;
+        }
         this.hitBottom();
         this.hitTop();
         this.hitLeft();
@@ -154,13 +163,14 @@ function updateGameArea() {
             clearInterval(myGameArea.interval);
             myPlatforms = [];
             myObstacles = [];
+
             return;
         } 
     }
     myGameArea.clear();
     myGameArea.frameNo += 1;
     points = Math.round(myGameArea.frameNo/10);
-    if (myGameArea.frameNo == 1 || everyinterval(150)) {
+    if (myGameArea.frameNo == 1 || everyinterval(140)) {
     width = 20
         minHeight = 12;
         maxHeight = 18;
@@ -175,13 +185,13 @@ function updateGameArea() {
         gap2 = Math.floor(Math.random()*(maxGap-minGap+1)+minGap);
         gap3 = Math.floor(Math.random()*(maxGap-minGap+1)+minGap);
         myPlatforms.push(new component(width, height, blockcolor, gap0 - 75, 40 -maxHeight));
-        myPlatforms.push(new component(width, height, blockcolor, 50 + gap1, 10-maxHeight));
-        myPlatforms.push(new component(width, height, blockcolor, 175 + gap2, 30-maxHeight));
-        myPlatforms.push(new component(width, height, blockcolor, 300 + gap3, 20-maxHeight));
-		myObstacles.push(new component(width, height, blockcolor, myGameArea.canvas.width - gap0 + 30, myGameArea.canvas.height + maxHeight));
-        myObstacles.push(new component(width, height, blockcolor, myGameArea.canvas.width - gap1 - 95, myGameArea.canvas.height + maxHeight));
-        myObstacles.push(new component(width, height, blockcolor, myGameArea.canvas.width - gap2 - 220, myGameArea.canvas.height + maxHeight));
-        myObstacles.push(new component(width, height, blockcolor, myGameArea.canvas.width - gap3 - 345, myGameArea.canvas.height + maxHeight));
+        myPlatforms.push(new component(width, height, blockcolor, 50 + gap1, 10 -maxHeight));
+        myPlatforms.push(new component(width, height, blockcolor, 175 + gap2, 30 -maxHeight));
+        myPlatforms.push(new component(width, height, blockcolor, 300 + gap3, 20 -maxHeight));
+		myObstacles.push(new component(width, height, blockcolor, myGameArea.canvas.width - gap0 + 30, myGameArea.canvas.height + maxHeight + 30));
+        myObstacles.push(new component(width, height, blockcolor, myGameArea.canvas.width - gap1 - 95, myGameArea.canvas.height + maxHeight + 20));
+        myObstacles.push(new component(width, height, blockcolor, myGameArea.canvas.width - gap2 - 220, myGameArea.canvas.height + maxHeight + 40));
+        myObstacles.push(new component(width, height, blockcolor, myGameArea.canvas.width - gap3 - 345, myGameArea.canvas.height + maxHeight + 10));
     }
     for (i = 0; i < myPlatforms.length; i += 1) {
         myPlatforms[i].y += 1;
@@ -225,9 +235,7 @@ function change(n) {
 }
 
 </script>
-<p>Instructions:</p>
-<p>SPACE = UP/DOWN</p>
-<p>CLICK = LEFT/RIGHT</p>
+</center>
 </body>
-</html>
 
+</html>
