@@ -184,16 +184,16 @@ function updateGameArea() {
         gap1 = Math.floor(Math.random()*(maxGap-minGap+1)+minGap);
         gap2 = Math.floor(Math.random()*(maxGap-minGap+1)+minGap);
         gap3 = Math.floor(Math.random()*(maxGap-minGap+1)+minGap);
-        myPlatforms.push(new component(width, height, blockcolor, gap0 - 75, 40 -maxHeight));
-        myPlatforms.push(new component(width, height, blockcolor, 50 + gap1, 10 -maxHeight));
-        myPlatforms.push(new component(width, height, blockcolor, 175 + gap2, 30 -maxHeight));
-        myPlatforms.push(new component(width, height, blockcolor, 300 + gap3, 20 -maxHeight));
-	myPlatforms.push(new component(width, height, blockcolor, 410 + gap0, 20 -maxHeight));
-	myObstacles.push(new component(width, height, blockcolor, myGameArea.canvas.width - gap0 + 40, myGameArea.canvas.height + maxHeight + 30));
-        myObstacles.push(new component(width, height, blockcolor, myGameArea.canvas.width - gap1 - 85, myGameArea.canvas.height + maxHeight + 20));
+           myPlatforms.push(new component(width, height, blockcolor, gap0 - 75, 40 -maxHeight));
+        myPlatforms.push(new component(width, height, blockcolor, 30 + gap1, 10 -maxHeight));
+        myPlatforms.push(new component(width, height, blockcolor, 135 + gap2, 30 -maxHeight));
+        myPlatforms.push(new component(width, height, blockcolor, 240 + gap3, 20 -maxHeight));
+	myPlatforms.push(new component(width, height, blockcolor, 370 + gap0, 20 -maxHeight));
+	myObstacles.push(new component(width, height, blockcolor, myGameArea.canvas.width - gap0 + 20, myGameArea.canvas.height + maxHeight + 30));
+        myObstacles.push(new component(width, height, blockcolor, myGameArea.canvas.width - gap1 - 105, myGameArea.canvas.height + maxHeight + 20));
         myObstacles.push(new component(width, height, blockcolor, myGameArea.canvas.width - gap2 - 210, myGameArea.canvas.height + maxHeight + 40));
-        myObstacles.push(new component(width, height, blockcolor, myGameArea.canvas.width - gap3 - 355, myGameArea.canvas.height + maxHeight + 10));
-	myObstacles.push(new component(width, height, blockcolor, myGameArea.canvas.width - gap0 - 410, myGameArea.canvas.height + maxHeight + 30));
+        myObstacles.push(new component(width, height, blockcolor, myGameArea.canvas.width - gap3 - 335, myGameArea.canvas.height + maxHeight + 10));
+	myObstacles.push(new component(width, height, blockcolor, myGameArea.canvas.width - gap0 - 390, myGameArea.canvas.height + maxHeight + 30));
     }
     for (i = 0; i < myPlatforms.length; i += 1) {
         myPlatforms[i].y += 1;
