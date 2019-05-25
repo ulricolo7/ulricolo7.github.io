@@ -164,6 +164,9 @@ function updateGameArea() {
             clearInterval(myGameArea.interval);
             myPlatforms = [];
             myObstacles = [];
+	    myMan = new component(15, 15, "#B0B0B0", 242.5, 182.5);
+  	    myScoreBox = new component(500, 40, "#101010", 0, 0);
+   	    myScore = new component("20px", "Arial", "#00CC33", 200, 30, "text")
             return;
         } 
     }
