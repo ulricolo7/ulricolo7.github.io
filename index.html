@@ -160,11 +160,10 @@ function updateGameArea() {
     var height, width, gap0, gap1, gap2, gap3, minHeight, maxHeight, minGap, maxGap, points, coinScore, minWidth, maxWidth;
     for (i = 0; i < myPlatforms.length; i += 1) {
         if (myMan.contactWith(myPlatforms[i]) || myMan.contactWith(myObstacles[i])) {
-        	myGameArea.over = true;
+            myGameArea.over = true;
             clearInterval(myGameArea.interval);
             myPlatforms = [];
             myObstacles = [];
-
             return;
         } 
     }
@@ -172,7 +171,7 @@ function updateGameArea() {
     myGameArea.frameNo += 1;
     points = Math.round(myGameArea.frameNo/10);
     if (myGameArea.frameNo == 1 || everyinterval(140)) {
-    width = 20
+        width = 20
         minHeight = 12;
         maxHeight = 18;
         height = Math.floor(Math.random()*(maxHeight-minHeight+1)+minHeight);
@@ -189,7 +188,7 @@ function updateGameArea() {
         myPlatforms.push(new component(width, height, blockcolor, 50 + gap1, 10 -maxHeight));
         myPlatforms.push(new component(width, height, blockcolor, 175 + gap2, 30 -maxHeight));
         myPlatforms.push(new component(width, height, blockcolor, 300 + gap3, 20 -maxHeight));
-		myObstacles.push(new component(width, height, blockcolor, myGameArea.canvas.width - gap0 + 30, myGameArea.canvas.height + maxHeight + 30));
+	myObstacles.push(new component(width, height, blockcolor, myGameArea.canvas.width - gap0 + 30, myGameArea.canvas.height + maxHeight + 30));
         myObstacles.push(new component(width, height, blockcolor, myGameArea.canvas.width - gap1 - 95, myGameArea.canvas.height + maxHeight + 20));
         myObstacles.push(new component(width, height, blockcolor, myGameArea.canvas.width - gap2 - 220, myGameArea.canvas.height + maxHeight + 40));
         myObstacles.push(new component(width, height, blockcolor, myGameArea.canvas.width - gap3 - 345, myGameArea.canvas.height + maxHeight + 10));
@@ -223,15 +222,15 @@ function shift(n) {
    if (myMan.shift > 0) {
 	myMan.shift = -n;
     } else {
-    myMan.shift = n;
+        myMan.shift = n;
     }
 }
 
 function change(n) {
    if (myMan.gravity > 0) {
-	myMan.gravity = -n;
+        myMan.gravity = -n;
     } else {
-    myMan.gravity = n;
+        myMan.gravity = n;
     }
 }
 
