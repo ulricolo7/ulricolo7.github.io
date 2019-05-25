@@ -16,6 +16,7 @@ canvas {
 <p>Instructions:</p>
 <p>W = UP/DOWN</p>
 <p>E = LEFT/RIGHT</p>
+<p>Press ENTER to restart the game!</p>
 <input type="button" value="Play!" onclick = "startGame()">
 <script>
 
@@ -34,7 +35,7 @@ function move(event) {
     	change(1.2);
     }
     
-    if (myGameArea.over == true) {
+    if (myGameArea.over == true && event.keyCode == 13) {
     	startGame();
     }
 }
@@ -164,9 +165,9 @@ function updateGameArea() {
             clearInterval(myGameArea.interval);
             myPlatforms = [];
             myObstacles = [];
-	    myMan = new component(15, 15, "#B0B0B0", 242.5, 182.5);
-  	    myScoreBox = new component(500, 40, "#101010", 0, 0);
-   	    myScore = new component("20px", "Arial", "#00CC33", 200, 30, "text")
+            myMan = new component(15, 15, "#B0B0B0", 242.5, 182.5);
+  	        myScoreBox = new component(500, 40, "#101010", 0, 0);
+   	        myScore = new component("20px", "Arial", "#00CC33", 200, 30, "text")
             return;
         } 
     }
